@@ -33,7 +33,7 @@ def get_next_run_num(results_dir: str) -> int:
     
     max_run_num = 0
     # Patrón para encontrar 'run_XXX' al principio de un nombre de fichero
-    run_pattern = re.compile(r'run_(\d+)')
+    run_pattern = re.compile(r'run_(\d+)') #Compiling with the regex makes the matcher faster (not that it matters much here)
     
     for filename in os.listdir(results_dir):
         match = run_pattern.match(filename)
@@ -50,6 +50,18 @@ def get_next_run_num(results_dir: str) -> int:
 def main():
     os.makedirs('results', exist_ok=True)
     os.makedirs('models', exist_ok=True)
+
+
+
+    next_run_number = get_next_run_number('results')
+    fp_type_name = config.FP_TYPE
+    
+    # Formateamos el nombre con ceros a la izquierda para un ordenamiento correcto (ej. run_001, run_002)
+    run_name = f"run_{next_run_number:03d}_{fp_type_name}"
+    
+    print(f"--- Iniciando Ejecución: {run_name} ---")
+
+
 
     #Loading and preparing data
     print('Loading data...')
