@@ -80,10 +80,20 @@ def find_best_params(
     @use_named_args
     def objective(**params):
         model = lgb.LGBMRegressor(random_state=33, verbose=-1, **params)
-        score = -np.mean(cross_val_score(model, X_train, y_train, cv_folds, scoring='neg_mean_absolute_error'))
+        score = -np.mean(cross_val_score(model, X_train, y_train, cv=cv_folds, scoring='neg_mean_absolute_error'))
         return score
 
-    print(f'\n Starting bayersian search. Total iterations: {n_calls}')
+    print(f'\n Starting bayesian search. Total iterations: {n_calls}')
 
     #Now the core of the work:
-    search_result = gp
+    search_result = gp_minimize(
+        func=objective,
+        dimensions=search_space
+        n_calls=n_calls
+        random_state=33
+        n_jobs=-1
+        callback=[callbacker] if callbacker else [] # Here the callback class that we created enters to log the history
+    )
+
+    best_params = {param.name : val for param, val in zip(search_space, search_result.x)}
+    print(f"\nSearch is finished. best : {search_result.fun:.4f}")
