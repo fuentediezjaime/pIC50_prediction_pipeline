@@ -96,4 +96,4 @@ def find_best_params(
     )
 
     best_params = {param.name : val for param, val in zip(search_space, search_result.x)}
-    print(f"\nSearch is finished. best : {search_result.fun:.4f}")
+    print(f"\nSearch is finished. best : {search_result.fun}")
