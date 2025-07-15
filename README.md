@@ -45,7 +45,7 @@ Multiple consecutive runs do not overwrite the results. Different indices are as
 ## Simple fingerprints: Morgan - RDKIT - MACCS
 To start we compare the results using 3 popular types of fingerprints directly available on RDKIT, Morgan fingerprints, RDKIT fingerprints and MACCS keys. All 3 are binary bit-vectors. For all of them, the following hyperparameter space has been explored:
 
-'''
+```
 SEARCH_SPACE = [
     Integer(15, 50, name='max_depth'),
     Real(1e-3, 5e-2, "log-uniform", name='learning_rate'),
@@ -54,7 +54,7 @@ SEARCH_SPACE = [
     Real(0.05, 0.3, name='feature_fraction'),
     Integer(300, 1024, name='num_leaves')
 ]
-'''
+```
 
 The fact that most of the optimum hyperparameters were inside the bounds of the search range indicates that the model is not "pushing the boundaries" of the allowed hyperparameter space. Below are the MAEs of the different fingerprints.
 
