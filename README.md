@@ -14,15 +14,16 @@ Once the config file is set and the environment created, just run python3 train.
 
 Multiple consecutive runs do not overwrite the results. Different indices are assigned to consecutive run results, so taht they do not overwrite. They are stored in a directory called results/.
 
-## Instalation
+## Installation
 
-1.  **Clonar el repositorio:**
+1.  **Clone this repo:**
     ```bash
-    git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
-    cd tu-repositorio
+    git clone [https://github.com/fuentediezjaime/pIC50_prediction_pipeline.git](https://github.com/fuentediezjaime/pIC50_prediction_pipeline.git)
+
+    cd pIC50_prediction_pipeline
     ```
 
-2.  **Crear y activar el entorno Conda:**
+2.  **Create and activate the Conda environment:**
     El fichero `environment.yml` contiene todas las dependencias necesarias.
     ```bash
     conda env create -f environment.yml
