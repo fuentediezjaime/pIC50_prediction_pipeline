@@ -1,7 +1,3 @@
-# pIC50_prediction_pipeline
-
-
-
 # Pipeline for prediction pIC50 from SMILES strings.
 
 This project was written originally to compete in the 2023 edition of the ENS Data Challenge "Predicting molecule-protein interaction for drug discovery". Although it is light enough to run on a laptop, it has been built with a more sophisticated production environment in mind. 
