@@ -8,3 +8,4 @@ __pycache__/
 *.pyd
 .vscode
 pic50_predictor.egg-info
+/results

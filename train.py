@@ -100,10 +100,11 @@ def main():
 
     #Save a convergence plot
     f = plt.figure(figsize=(10,6))
-    f.plot(scores, marker='.', linestyle='--')
-    f.set_xlabel('Iteration number')
-    f.set_ylabel('Best MAE in CV')
-    f.set_title(f'Convergence: {run_name}')
+    ax = f.add_axes((0.1,0.1,0.8,0.8))
+    ax.plot(scores, marker='.', linestyle='--')
+    ax.set_xlabel('Iteration number')
+    ax.set_ylabel('Best MAE in CV')
+    ax.set_title(f'Convergence: {run_name}')
     plot_path = f'results/{run_name}_convergence_plot.png'
     f.savefig(plot_path)
     print(f'Conv. plot saved in {plot_path}')

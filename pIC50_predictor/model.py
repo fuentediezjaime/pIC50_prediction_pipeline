@@ -12,6 +12,7 @@ from skopt.space import Real, Integer
 from typing import List, Dict, Any
 from skopt.utils import use_named_args
 from typing import List, Dict, Any, Tuple
+import time
 
 class OptimizerCallback:
     """
