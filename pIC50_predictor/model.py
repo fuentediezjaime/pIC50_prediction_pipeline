@@ -21,12 +21,17 @@ class OptimizerCallback:
     def __init__(self, search_space: List):
         self.search_space = search_space
         self.results = []
+        self.start_time = time.perf_counter() #Starts timer at the first time, when it is instantiated.
 
     def __call__(self, res): #Allows to call the class directly. res is the output of the gp_minimize optimizer
+
+        #As this class is called AT THE END of a GP search iteration, the time when it is called corresponds to the end of that search
+        duration = time.perf_counter() - self.start_time
         latest_params = {param.name: val for param, val in zip(self.search_space, res.x_iters[-1])}
         latest_score = res.func_vals[-1]
-        self.results.append({**latest_params, 'score': latest_score})
-        print(f"Search iteraton {len(self.results)}: score={latest_score:.4f}")
+        self.results.append({**latest_params, 'score': latest_score, 'time':duration})
+        print(f"Search iteraton {len(self.results)}: score={latest_score:.4f}, time={duration}")
+        self.start_time = time.perf_counter() #Restarting the timing counter.
 
 
 class pIC50Predictor:

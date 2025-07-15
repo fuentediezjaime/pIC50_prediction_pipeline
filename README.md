@@ -41,18 +41,26 @@ Multiple consecutive runs do not overwrite the results. Different indices are as
     pip install -e .
     ```
 
-Los resultados (logs, gráficos) se guardarán en la carpeta `/results` y el modelo final en `/models`, cada uno con un nombre de ejecución único.
+# Results
+## Simple fingerprints: Morgan - RDKIT - MACCS
+To start we compare the results using 3 popular types of fingerprints directly available on RDKIT, Morgan fingerprints, RDKIT fingerprints and MACCS keys. All 3 are binary bit-vectors. For all of them, the following hyperparameter space has been explored:
 
-## Estructura del Proyecto
-```
-├── config.py            # Fichero central de configuración
-├── train.py             # Script principal para orquestar el entrenamiento
-├── environment.yml      # Fichero de dependencias para Conda
-├── setup.py             # Fichero de instalación del paquete
-├── pic50_predictor/     # Paquete principal con la lógica de la aplicación
-│   ├── __init__.py
-│   ├── features.py      # Funciones para carga de datos y featurización
-│   └── model.py         # Clases y funciones para el modelo y su optimización
-├── models/              # Directorio para los modelos entrenados
-└── results/             # Directorio para los logs y gráficos de resultados
-```
+'''
+SEARCH_SPACE = [
+    Integer(15, 50, name='max_depth'),
+    Real(1e-3, 5e-2, "log-uniform", name='learning_rate'),
+    Integer(1500, 4000, name='n_estimators'),
+    Real(1e-2, 10.0, "log-uniform", name='reg_lambda'),
+    Real(0.05, 0.3, name='feature_fraction'),
+    Integer(300, 1024, name='num_leaves')
+]
+'''
+
+The fact that most of the optimum hyperparameters were inside the bounds of the search range indicates that the model is not "pushing the boundaries" of the allowed hyperparameter space. Below are the MAEs of the different fingerprints.
+
+|Fingerprint|MAE|
+|---|---|
+|Morgan(2)|0.00|
+|Morgan(3)|0.00|
+|RDKIT|0.00|
+|MACCS| 0.00|

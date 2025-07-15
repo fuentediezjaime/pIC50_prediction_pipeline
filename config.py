@@ -7,13 +7,21 @@ from skopt.space import Real, Integer
 
 # Definition of the search space.
 SEARCH_SPACE = [
-    Integer(2, 50, name='max_depth'),
-    Real(0.005, 0.05, name='learning_rate'),
-    Integer(500, 2000, name='n_estimators'),
-    Real(0, 1, name='reg_lambda'),
-    Real(0.2, 0.8, name='feature_fraction'),
-    Integer(10, 1024, name='num_leaves')
+    Integer(15, 50, name='max_depth'),
+    Real(1e-3, 5e-2, "log-uniform", name='learning_rate'),
+    Integer(1500, 4000, name='n_estimators'),
+    Real(1e-2, 10.0, "log-uniform", name='reg_lambda'),
+    Real(0.05, 0.3, name='feature_fraction'),
+    Integer(300, 1024, name='num_leaves')
 ]
+
+
+
+
+
+
+
+
 
 # Define iterations of the bayes search, and the folds for each point in the search.
 N_CALLS_OPTIMIZATION = 50  # Número de iteraciones para la búsqueda Bayesiana.

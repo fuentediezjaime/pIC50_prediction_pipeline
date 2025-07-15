@@ -110,7 +110,7 @@ def main():
     print(f'Conv. plot saved in {plot_path}')
 
     #Now, we retrain with the optimum parameters on all the dataset
-    final_predictor = PIC50Predictor(model_params=best_params)
+    final_predictor = pIC50Predictor(model_params=best_params)
     final_predictor.train(features, train_targets)
     print('I AM DONE')
 
