@@ -72,12 +72,12 @@ def find_best_params(
         y_train: np.ndarray,
         search_space: List, #It is a list of the internal Integer, Real skopt objects, that have inner bounds.
         n_calls: int = 50,
-        cv_folds: int = 10
+        cv_folds: int = 10,
         callbacker: OptimizerCallback = None) -> Dict[str, Any]:
     """Function to launch the GP search of the best hyperparameters within a range."""
     np.int = int #skopt quirk.
 
-    @use_named_args
+    @use_named_args(search_space)
     def objective(**params):
         model = lgb.LGBMRegressor(random_state=33, verbose=-1, **params)
         score = -np.mean(cross_val_score(model, X_train, y_train, cv=cv_folds, scoring='neg_mean_absolute_error'))
@@ -88,12 +88,14 @@ def find_best_params(
     #Now the core of the work:
     search_result = gp_minimize(
         func=objective,
-        dimensions=search_space
-        n_calls=n_calls
-        random_state=33
-        n_jobs=-1
+        dimensions=search_space,
+        n_calls=n_calls,
+        random_state=33,
+        n_jobs=-1,
         callback=[callbacker] if callbacker else [] # Here the callback class that we created enters to log the history
     )
 
     best_params = {param.name : val for param, val in zip(search_space, search_result.x)}
     print(f"\nSearch is finished. best : {search_result.fun}")
+
+    return best_params

@@ -1,9 +1,10 @@
 venv/
 env/
 .env
+pic50_env/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .vscode
-
+pic50_predictor.egg-info

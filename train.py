@@ -13,15 +13,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import re
-
+import warnings
 # Import the custom configuration file
 import config
 
 # Import the custom packages 
-from pic50_predictor.features import load_smiles_from_csv, generate_fingerprints
-from pic50_predictor.model import PIC50Predictor, find_best_params, OptimizerCallback
+from pIC50_predictor.features import load_smiles_from_csv, generate_fps
+from pIC50_predictor.model import pIC50Predictor, find_best_params, OptimizerCallback
 
 
+# Ignore a warning from lgbm when the features do not have names
+warnings.filterwarnings("ignore", category=UserWarning, message="X does not have valid feature names")
 
 
 def get_next_run_num(results_dir: str) -> int:
@@ -53,14 +55,12 @@ def main():
 
 
 
-    next_run_number = get_next_run_number('results')
+    next_run_number = get_next_run_num('results')
     fp_type_name = config.FP_TYPE
     
     # Formateamos el nombre con ceros a la izquierda para un ordenamiento correcto (ej. run_001, run_002)
     run_name = f"run_{next_run_number:03d}_{fp_type_name}"
     
-    print(f"--- Iniciando Ejecución: {run_name} ---")
-
 
 
     #Loading and preparing data
@@ -69,7 +69,7 @@ def main():
     train_targets = pd.read_csv(config.TARGET_PATH)
     train_targets = train_targets[config.TARGET_COL]
 
-    features = generate_fingerprints(
+    features = generate_fps(
         train_smiles,
         fp_type = config.FP_TYPE,
         **config.FP_PARAMS
@@ -94,4 +94,25 @@ def main():
     print('\n Saving search history')
     results_df=pd.DataFrame(opt_callback.results)
     results_df=results_df.sort_values(by='score').reset_index(drop=True)
+    log_path = f'results/{run_name}_search_logs.csv'
+    results_df.to_csv(log_path)
+    print(f'Search history was saved in {log_path}')
+
+    #Save a convergence plot
+    f = plt.figure(figsize=(10,6))
+    f.plot(scores, marker='.', linestyle='--')
+    f.set_xlabel('Iteration number')
+    f.set_ylabel('Best MAE in CV')
+    f.set_title(f'Convergence: {run_name}')
+    plot_path = f'results/{run_name}_convergence_plot.png'
+    f.savefig(plot_path)
+    print(f'Conv. plot saved in {plot_path}')
+
+    #Now, we retrain with the optimum parameters on all the dataset
+    final_predictor = PIC50Predictor(model_params=best_params)
+    final_predictor.train(features, train_targets)
+    print('I AM DONE')
+
+if __name__ == '__main__':
+    main()
 

@@ -28,7 +28,7 @@ DATA_PATH = "dataset/X_train_AX2CWD7.csv"
 TARGET_PATH = "dataset/y_train_hCIvDMj.csv"
 
 # Column names.
-SMILES_COL = 'SMILES'
+SMILES_COL = 'smiles'
 TARGET_COL = 'y'
 
 # Fingerprint configurations.

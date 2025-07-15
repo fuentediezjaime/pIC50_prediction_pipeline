@@ -15,6 +15,7 @@ from rdkit import Chem, DataStructs
 from rdkit.Chem import AllChem, MACCSkeys
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from typing import List, Union
+from rdkit.Chem.rdFingerprintGenerator import GetMorganGenerator
 
 def load_smiles_from_csv(path : str, smiles_col: Union[str, int] = 1) -> np.ndarray:
     """
@@ -60,7 +61,8 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
         elif fp_type == 'morgan':
             radius = kwargs.get('radius',2)
             nBits = kwargs.get('nBits',2048)
-            fp = AllChem.GetMorganFingerprintsAsBitVect(mol, radius, nBits=nBits)
+            fpgen = GetMorganGenerator(radius, fpSize=nBits)
+            fp = fpgen.GetFingerprint(mol)
         elif fp_type == 'maccs':
             fp = MACCSkeys.GenMACCSKeys(mol)
         else:
