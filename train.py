@@ -93,11 +93,12 @@ def main():
     #Saving training history.
     print('\n Saving search history')
     results_df=pd.DataFrame(opt_callback.results)
-    results_df=results_df.sort_values(by='score').reset_index(drop=True)
+    results_df=results_df.reset_index(drop=True)
     log_path = f'results/{run_name}_search_logs.csv'
     results_df.to_csv(log_path)
     print(f'Search history was saved in {log_path}')
 
+    scores = results_df['score']
     #Save a convergence plot
     f = plt.figure(figsize=(10,6))
     ax = f.add_axes((0.1,0.1,0.8,0.8))

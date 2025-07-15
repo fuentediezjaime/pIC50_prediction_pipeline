@@ -24,12 +24,11 @@ SEARCH_SPACE = [
 
 
 # Define iterations of the bayes search, and the folds for each point in the search.
-N_CALLS_OPTIMIZATION = 50  # Número de iteraciones para la búsqueda Bayesiana.
-CV_FOLDS = 10              # Número de folds para la validación cruzada.
+N_CALLS_OPTIMIZATION = 50 #50  # It. number for bayesian search
+CV_FOLDS = 5 #5 or 10              # Folds number for crossval at each bayes search step.
 
 
 
-#PATHS, COLUMN NAMES...
 
 # Paths to data files.
 DATA_PATH = "dataset/X_train_AX2CWD7.csv"
@@ -40,5 +39,5 @@ SMILES_COL = 'smiles'
 TARGET_COL = 'y'
 
 # Fingerprint configurations.
-FP_TYPE = 'morgan'
-FP_PARAMS = {'radius': 2, 'nBits': 2048}
+FP_TYPE = 'mor_rdk'#'mor_rdk'
+FP_PARAMS = {'radius': 2, 'nBits': 1024, 'maxPath': 7, 'fpSize': 1024}

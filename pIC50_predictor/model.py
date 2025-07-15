@@ -2,7 +2,6 @@
 This module contains the class pIC50 predictor, which contains a LightGBM model and functions for hyperparameter search.
 """
 
-
 import lightgbm as lgb
 import joblib
 import numpy as np

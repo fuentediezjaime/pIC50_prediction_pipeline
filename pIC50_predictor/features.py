@@ -54,17 +54,50 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
 
     for smile in smiles_list: #Generate the mol objects
         mol = Chem.MolFromSmiles(smile)
+
         if mol is None:
             continue #Skip smiles that failed to convert.
+
+
         if fp_type =='rdkit':
-            fp = Chem.RDKFingerprint(mol, **kwargs)
+            maxpath= kwargs.get('maxPath',7)
+            fpsize = kwargs.get('fpSize', 2048)
+            fpgen_rdk = AllChem.GetRDKitFPGenerator(maxPath=maxpath, fpSize=fpsize)
+            fp = fpgen_rdk.GetFingerprint(mol)
+
+
         elif fp_type == 'morgan':
             radius = kwargs.get('radius',2)
             nBits = kwargs.get('nBits',2048)
             fpgen = GetMorganGenerator(radius, fpSize=nBits)
             fp = fpgen.GetFingerprint(mol)
+
+
         elif fp_type == 'maccs':
             fp = MACCSkeys.GenMACCSKeys(mol)
+
+
+        elif fp_type =='mor_rdk':
+            # The morgan fp is created.
+            radius = kwargs.get('radius',2)
+            nBits = kwargs.get('nBits',2048)
+            fpgen = GetMorganGenerator(radius, fpSize=nBits)
+            fp_mor = fpgen.GetFingerprint(mol)
+
+            #The RDKIT (topological) fingerprint is created.
+            maxpath= kwargs.get('maxPath',7)
+            fpsize = kwargs.get('fpSize', 1024)
+            fpgen_rdk = AllChem.GetRDKitFPGenerator(maxPath=maxpath, fpSize=fpsize)
+            fp_rdk = fpgen_rdk.GetFingerprint(mol)
+
+            # Fuse the fingerprints
+            fp = fp_mor + fp_rdk
+
+
+        elif fp_type == 'mor_scalars': #This fingerprint concatenates the morgan fingerprints and some scalar values from RDKit.
+            
+             
+
         else:
             raise ValueError(f'Not supported fingerprint type: {fp_type}')            
         fingerprints.append(fp)

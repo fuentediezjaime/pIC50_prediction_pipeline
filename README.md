@@ -60,7 +60,11 @@ The fact that most of the optimum hyperparameters were inside the bounds of the 
 
 |Fingerprint|MAE|
 |---|---|
-|Morgan(2)|0.00|
-|Morgan(3)|0.00|
-|RDKIT|0.00|
-|MACCS| 0.00|
+|Morgan(2)|0.534|
+|Morgan(3)|0.549|
+|RDKIT|0.563|
+|MACCS| 0.631|
+|Morgan + rdkit| 000|
+
+
+We must improve the description of the molecules in order to further lower the MAE. We see that hyperparameter search alone is not enough, and neither are single RDKIT fingerprints. A common solution is to concatenate fingerprints, hopefully fingerprints that contain non-redundant information to improve the "expresiveness" of our fingerprints.
