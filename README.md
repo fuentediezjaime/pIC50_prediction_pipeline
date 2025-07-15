@@ -2,26 +2,19 @@
 
 This project was written originally to compete in the 2023 edition of the ENS Data Challenge "Predicting molecule-protein interaction for drug discovery". Although it is light enough to run on a laptop, it has been built with a more sophisticated production environment in mind. 
 
-Conda is the recommended virtual environment manager for the code due to the RDKIT compatibility. However, RDKIT can be compiled from source and installed on a venv environment.
+Conda (from MiniConda) was used as the virtual environment manager for the code due to the RDKIT compatibility. However, RDKIT can be compiled from source and installed on a venv environment.
 
 
 ## How to run.
-The process of fingerprint generation and parameter search is automated. One just needs to ensure that the dataset is in the correct 
+The process of fingerprint generation and parameter search is automated. One just needs to ensure that the dataset and the target path are correctly indicated in the config.py file.
 
+The parameters for the hyperparameter search are also defined in config.py, notably the ranges for the hyperparameters, the number of bayesian search iterations, and the number of cross-validation folds for each bayesian search step. If the search takes too long, the cross-validation fold number can be reduced to control cost.
 
+Once the config file is set and the environment created, just run python3 train.py. It will output the MAE loss at every Bayes-search step and will automatically provide an optimum model retrained in the whole dataset.
 
+Multiple consecutive runs do not overwrite the results. Different indices are assigned to consecutive run results, so taht they do not overwrite. They are stored in a directory called results/.
 
-
-
-
-## Características
-
-* **Estructura Profesional:** Organizado como un paquete Python instalable y modular.
-* **Reproducibilidad:** El entorno exacto está definido en `environment.yml` para ser recreado con Conda.
-* **Configurabilidad:** Todos los parámetros del experimento (rutas, tipo de fingerprint, configuración de la optimización) se gestionan desde un único fichero `config.py`.
-* **Trazabilidad:** Cada ejecución genera un `run_name` único para guardar un log en CSV con el historial de la búsqueda, un gráfico de convergencia y el modelo final entrenado.
-
-## Instalación
+## Instalation
 
 1.  **Clonar el repositorio:**
     ```bash

@@ -1,5 +1,5 @@
 """
-Conf_file for the param search.
+Conf_file for the parameter search.
 """
 from skopt.space import Real, Integer
 
