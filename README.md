@@ -10,7 +10,13 @@ The process of fingerprint generation and parameter search is automated. One jus
 
 The parameters for the hyperparameter search are also defined in config.py, notably the ranges for the hyperparameters, the number of bayesian search iterations, and the number of cross-validation folds for each bayesian search step. If the search takes too long, the cross-validation fold number can be reduced to control cost.
 
-Once the config file is set and the environment created, just run python3 train.py. It will output the MAE loss at every Bayes-search step and will automatically provide an optimum model retrained in the whole dataset.
+Once the config file is set and the environment created, just run:
+
+
+```bash
+python3 train.py
+```
+It will output the MAE loss at every Bayes-search step and will automatically provide an optimum model retrained in the whole dataset.
 
 Multiple consecutive runs do not overwrite the results. Different indices are assigned to consecutive run results, so taht they do not overwrite. They are stored in a directory called results/.
 
@@ -24,23 +30,17 @@ Multiple consecutive runs do not overwrite the results. Different indices are as
     ```
 
 2.  **Create and activate the Conda environment:**
-    El fichero `environment.yml` contiene todas las dependencias necesarias.
+    `environment.yml` contains all the dependencies.
     ```bash
     conda env create -f environment.yml
-    conda activate pic50_env
+    conda activate pic50
     ```
 
-3.  **Instalar el proyecto en modo editable:**
+3.  **Install the project in editable mode:**
     ```bash
     pip install -e .
     ```
 
-## Uso
-
-Para ejecutar el pipeline completo (optimización, entrenamiento y guardado), simplemente ejecuta el script principal desde la raíz del proyecto:
-```bash
-python train.py
-```
 Los resultados (logs, gráficos) se guardarán en la carpeta `/results` y el modelo final en `/models`, cada uno con un nombre de ejecución único.
 
 ## Estructura del Proyecto
