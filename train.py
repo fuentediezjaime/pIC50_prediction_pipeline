@@ -113,6 +113,10 @@ def main():
     #Now, we retrain with the optimum parameters on all the dataset
     final_predictor = pIC50Predictor(model_params=best_params)
     final_predictor.train(features, train_targets)
+
+    save_model_path = f'models/{run_name}_optimum_trained.joblib'
+
+    final_predictor.save(save_model_path)
     print('I AM DONE')
 
 if __name__ == '__main__':

@@ -106,7 +106,7 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
             log_p = log_p_raw[0] if isinstance(log_p_raw, tuple) else log_p_raw
             n_Hdon = n_Hdon_raw[0] if isinstance(n_Hdon_raw, tuple) else n_Hdon_raw
             n_Hacc = n_Hacc_raw[0] if isinstance(n_Hacc_raw, tuple) else n_Hacc_raw
-            tpsa = tpsa_raw[0] if isinstance(tpsa_raw, tuple) else n_Hacc_raw  
+            tpsa = tpsa_raw[0] if isinstance(tpsa_raw, tuple) else tpsa_raw[0]  
 
             scalars_array = np.array([molwt, log_p, n_Hdon, n_Hacc, tpsa])
             radius = kwargs.get('radius',2)
