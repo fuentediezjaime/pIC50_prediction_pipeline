@@ -9,3 +9,4 @@ __pycache__/
 .vscode
 pic50_predictor.egg-info
 /results
+/models
