@@ -100,13 +100,13 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
             n_Hdon_raw = Lipinski.NumHDonors(mol)
             n_Hacc_raw = Lipinski.NumHAcceptors(mol)
             tpsa_raw = Descriptors.TPSA(mol)
-
             #Some smiles strings result in some of this quantities being tuples sometimes, sometimes floats. Check type and convert.
             molwt = molwt_raw[0] if isinstance(molwt_raw, tuple) else molwt_raw
             log_p = log_p_raw[0] if isinstance(log_p_raw, tuple) else log_p_raw
             n_Hdon = n_Hdon_raw[0] if isinstance(n_Hdon_raw, tuple) else n_Hdon_raw
             n_Hacc = n_Hacc_raw[0] if isinstance(n_Hacc_raw, tuple) else n_Hacc_raw
-            tpsa = tpsa_raw[0] if isinstance(tpsa_raw, tuple) else tpsa_raw[0]  
+            tpsa = tpsa_raw[0] if isinstance(tpsa_raw, tuple) else tpsa_raw
+            
 
             scalars_array = np.array([molwt, log_p, n_Hdon, n_Hacc, tpsa])
             radius = kwargs.get('radius',2)
@@ -126,7 +126,7 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
 
 
 
-        elif fp_type == 'mor_rdk_scalar':
+        elif fp_type == 'mor_rdk_scalar_importance':
             pass
 
         else:

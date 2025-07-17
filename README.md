@@ -64,7 +64,18 @@ The fact that most of the optimum hyperparameters were inside the bounds of the 
 |Morgan(3)|0.549|
 |RDKIT|0.563|
 |MACCS| 0.631|
-|Morgan + rdkit| 0.504|
+|Morgan + rdkit| 0.532|
 
 
-We must improve the description of the molecules in order to further lower the MAE. We see that hyperparameter search alone is not enough, and neither are single RDKIT fingerprints. A common solution is to concatenate fingerprints, hopefully fingerprints that contain non-redundant information to improve the "expresiveness" of our fingerprints. An example of this are the topological fingerprints from RDKit, which work by identifying connection paths through the molecular structure, while the Morgan fingerprints describe the circular environment of the atoms. Indeed, the concatenation of the fingerprints produces a better result in terms of MAE. Further concatenations can be tried, such as by using pharmachological fingerprints or torsional fingerprints, as well as concatenating scalar values for molecular descriptors to the base Morgan fingerprint.
+We must improve the description of the molecules in order to further lower the MAE. We see that hyperparameter search alone is not enough, and neither are single RDKIT fingerprints. A common solution is to concatenate fingerprints, hopefully fingerprints that contain non-redundant information to improve the "expresiveness" of our fingerprints. An example of this are the topological fingerprints from RDKit, which work by identifying connection paths through the molecular structure, while the Morgan fingerprints describe the circular environment of the atoms. However, concatenating the FPs does not improve the MAE of the model.
+
+## Adding physico-chemical descriptors.
+It seems that the topological description of the molecule is not enough to get a great predictive performance from the model. In principle, as tree-based learners do not suffer from differences in the scale of the input parameters, (1/0 bits vs scalars, for instance), we can add scalar physico-chemical descriptors from RDKIT.
+
+
+## Pruning the unnecessary digits.
+Until now, we've progressively increased the complexity of the fingerprint, and that has given us quite modest jumps in performance. Also, when one performs hyperparameter search, the optimum models show a maximal number of trees, and a close to minimal learning rate. This means that the model is becoming "squeezed". Large increases in capacity are needed to explore the minor details of the error function and that, together with very small learning rates, allow our models to find very shallow minima in the hyperparameter space. 
+
+Still, one expects that, if a fingerprint becomes "twice as informative" (by concatenating two fingerprints"), the error should sharply fall. A possible explanation of this contradiction is that most bits on the RDKIT or the Morgan fingerprint are redundant or non informative, and the information is really conveyed by a small subset of the features. Luckily, from the lightGBM models an importance ranking for each feature can be extracted.
+
+To ensure consistency, we run 3 hyperparameter searches with identical search ranges, on morgan+rdkit+scalar fingeprints. We compute the average importance of the features along this 3 runs

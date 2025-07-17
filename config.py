@@ -24,8 +24,8 @@ SEARCH_SPACE = [
 
 
 # Define iterations of the bayes search, and the folds for each point in the search.
-N_CALLS_OPTIMIZATION = 10 #50  # It. number for bayesian search
-CV_FOLDS = 2 #5 or 10              # Folds number for crossval at each bayes search step.
+N_CALLS_OPTIMIZATION = 50 #50  # It. number for bayesian search
+CV_FOLDS = 5 #5 or 10              # Folds number for crossval at each bayes search step.
 
 
 
