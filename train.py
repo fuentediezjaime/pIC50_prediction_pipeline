@@ -86,7 +86,8 @@ def main():
         search_space=config.SEARCH_SPACE,
         n_calls=config.N_CALLS_OPTIMIZATION,
         cv_folds=config.CV_FOLDS,
-        callbacker=opt_callback
+        callbacker=opt_callback,
+        random_seed=config.RAN_HYP_SEARCH
     )
 
 

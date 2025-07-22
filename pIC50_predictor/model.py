@@ -78,9 +78,12 @@ def find_best_params(
         search_space: List, #It is a list of the internal Integer, Real skopt objects, that have inner bounds.
         n_calls: int = 50,
         cv_folds: int = 10,
-        callbacker: OptimizerCallback = None) -> Dict[str, Any]:
+        callbacker: OptimizerCallback = None,
+        random_seed : bool=True) -> Dict[str, Any]:
     """Function to launch the GP search of the best hyperparameters within a range."""
     np.int = int #skopt quirk.
+
+    seed = int(np.random.uniform()*100) if random_seed else None
 
     @use_named_args(search_space)
     def objective(**params):
@@ -95,7 +98,7 @@ def find_best_params(
         func=objective,
         dimensions=search_space,
         n_calls=n_calls,
-        random_state=33,
+        random_state=seed,
         n_jobs=-1,
         callback=[callbacker] if callbacker else [] # Here the callback class that we created enters to log the history
     )

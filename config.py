@@ -41,3 +41,6 @@ TARGET_COL = 'y'
 # Fingerprint configurations.
 FP_TYPE = 'mor_rdk_scalars'#'mor_rdk'
 FP_PARAMS = {'radius': 2, 'nBits': 1024, 'maxPath': 7, 'fpSize': 1024}
+
+#Do random hyperparameter search or not:
+RAN_HYP_SEARCH = True

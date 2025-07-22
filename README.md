@@ -70,7 +70,29 @@ The fact that most of the optimum hyperparameters were inside the bounds of the 
 We must improve the description of the molecules in order to further lower the MAE. We see that hyperparameter search alone is not enough, and neither are single RDKIT fingerprints. A common solution is to concatenate fingerprints, hopefully fingerprints that contain non-redundant information to improve the "expresiveness" of our fingerprints. An example of this are the topological fingerprints from RDKit, which work by identifying connection paths through the molecular structure, while the Morgan fingerprints describe the circular environment of the atoms. However, concatenating the FPs does not improve the MAE of the model.
 
 ## Adding physico-chemical descriptors.
-It seems that the topological description of the molecule is not enough to get a great predictive performance from the model. In principle, as tree-based learners do not suffer from differences in the scale of the input parameters, (1/0 bits vs scalars, for instance), we can add scalar physico-chemical descriptors from RDKIT.
+It seems that the topological description of the molecule is not enough to get a great predictive performance from the model. In principle, as tree-based learners do not suffer from differences in the scale of the input parameters, (1/0 bits vs scalars, for instance), we can add scalar physico-chemical descriptors from RDKIT. The descriptors are: 
+
+
+- MolWt: Molecular Weight
+- MolLogP: Octanol-water partition coefficient, a measure of lipophilicity.
+- NumHDonors: Number of hydrogen bond donors.
+- NumHAcceptors: Number of hydrogen bond acceptors.
+- TPSA: Topological Polar Surface Area.
+
+These features provide the model with a different, complementary view of the molecule, focusing on its global physical properties rather than just its structural connectivity. The final feature vector used for training is a concatenation of the chosen molecular fingerprints (morgan+rdkit) and this vector of five scalar descriptors.
+
+
+
+|Fingerprint|MAE|
+|---|---|---|
+|Morgan(2)|0.534|
+|Morgan(3)|0.549|
+|RDKIT|0.563|
+|MACCS| 0.631|
+|Morgan + rdkit| 0.532|
+|Morgan + rdkit + scalars|0.521|
+
+Again, we see a minuscule improvement. As this fingerprint is more than twice as long as the original Morgan fingerprint, and contains two different topological FPs + scalar physical properties, it seems that the implementation up to this point either misses some key descriptive element of the molecules, or is using an ill-chosen model.
 
 
 ## Pruning the unnecessary digits.
@@ -78,4 +100,11 @@ Until now, we've progressively increased the complexity of the fingerprint, and 
 
 Still, one expects that, if a fingerprint becomes "twice as informative" (by concatenating two fingerprints"), the error should sharply fall. A possible explanation of this contradiction is that most bits on the RDKIT or the Morgan fingerprint are redundant or non informative, and the information is really conveyed by a small subset of the features. Luckily, from the lightGBM models an importance ranking for each feature can be extracted.
 
-To ensure consistency, we run 3 hyperparameter searches with identical search ranges, on morgan+rdkit+scalar fingeprints. We compute the average importance of the features along this 3 runs
+To ensure consistency, we run 5 hyperparameter searches with identical search ranges, on morgan+rdkit+scalar fingeprints. The results are:
+
+| Réplica | `learning_rate` | `n_estimators` | `max_depth` | `num_leaves` | `feature_fraction` | `reg_lambda` |
+| --- | --- | --- | --- | :--- | :--- | :--- |
+| **1** | 0.00786 | 5000 | 50 | 384 | 0.171 | 10.0 |
+| **2** | 0.00709 | 3778 | 50 | 543 | 0.204 | 10.0 |
+| **3** | 0.01557 | 3522 | 8 | 792 | 0.362 | 0.885 |
+| **4** | 0.00493 | 2765 | 50 | 300 | 0.351 | 0.01 |

@@ -126,7 +126,7 @@ def generate_fps(smiles_list: List[str], fp_type: str, **kwargs) -> List[Explici
 
 
 
-        elif fp_type == 'mor_rdk_scalar_importance':
+        elif fp_type == 'mor_rdk_scalar':
             pass
 
         else:
