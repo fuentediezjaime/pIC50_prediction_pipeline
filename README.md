@@ -100,7 +100,7 @@ Until now, we've progressively increased the complexity of the fingerprint, and 
 
 Still, one expects that, if a fingerprint becomes "twice as informative" (by concatenating two fingerprints"), the error should sharply fall. A possible explanation of this contradiction is that most bits on the RDKIT or the Morgan fingerprint are redundant or non informative, and the information is really conveyed by a small subset of the features. Luckily, from the lightGBM models an importance ranking for each feature can be extracted.
 
-To ensure consistency, we run 5 hyperparameter searches with identical search ranges, on morgan+rdkit+scalar fingeprints. The results are:
+To ensure consistency, we run 4 hyperparameter searches with identical search ranges, on morgan+rdkit+scalar fingeprints. The results are:
 
 | Réplica | `learning_rate` | `n_estimators` | `max_depth` | `num_leaves` | `feature_fraction` | `reg_lambda` |
 | --- | --- | --- | --- | :--- | :--- | :--- |
@@ -108,3 +108,8 @@ To ensure consistency, we run 5 hyperparameter searches with identical search ra
 | **2** | 0.00709 | 3778 | 50 | 543 | 0.204 | 10.0 |
 | **3** | 0.01557 | 3522 | 8 | 792 | 0.362 | 0.885 |
 | **4** | 0.00493 | 2765 | 50 | 300 | 0.351 | 0.01 |
+
+
+All the runs provide very similar values for the MAE, which start to differ only in the 3rd decimal place. It seems that indeed the error landscape is quite flat, since both very "deep" (1) and very "shallow but branched" models (2) can provide similar results, it seems that there is no clear minimum, only small minima. This supports the idea that the signal/noise ratio in our dataset is low, and a possible fix for this could be the selection of key features on the existing combined fingerprint. We rank the features according to their importance to the LGBM model, and plot them:
+
+![Texto alternativo](../plots/Ranking_vs_ID.png)
