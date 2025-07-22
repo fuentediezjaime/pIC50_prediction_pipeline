@@ -33,13 +33,13 @@ CV_FOLDS = 5 #5 or 10              # Folds number for crossval at each bayes sea
 # Paths to data files.
 DATA_PATH = "dataset/X_train_AX2CWD7.csv"
 TARGET_PATH = "dataset/y_train_hCIvDMj.csv"
-
+DATA_PATH_TEST = 'dataset/X_test_0mB4D2v.csv'
 # Column names.
 SMILES_COL = 'smiles'
 TARGET_COL = 'y'
 
 # Fingerprint configurations.
-FP_TYPE = 'mor_rdk_scalars_pruned'#'mor_rdk'
+FP_TYPE = 'mor_rdk_scalars'#'mor_rdk'
 FP_PARAMS = {'radius': 2, 'nBits': 1024, 'maxPath': 7, 'fpSize': 1024}
 
 #Do random hyperparameter search or not:

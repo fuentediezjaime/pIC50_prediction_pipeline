@@ -116,4 +116,4 @@ All the runs provide very similar values for the MAE, which start to differ only
 
 We see that the most important features are in general the ones above the dotted line: the morgan features are more relevant than the RDKIT features, as we could already infer from the previous error values. Also, the highest raking points are those with the highest index: they are the scalar elements that were added to the fingerprint.
 
-We now build a set containing, without repetition, the top 100 features of each of the 4 simulations that were ran, and use it to train a new model. 
+We now build a set containing, without repetition, the top N features of each of the 4 simulations that were ran, and use it to train a new model. This fingerprint, by taking the top 1000 (half of the combined FP legth) led to the best results as of dec. 2023.
