@@ -112,4 +112,4 @@ To ensure consistency, we run 4 hyperparameter searches with identical search ra
 
 All the runs provide very similar values for the MAE, which start to differ only in the 3rd decimal place. It seems that indeed the error landscape is quite flat, since both very "deep" (1) and very "shallow but branched" models (2) can provide similar results, it seems that there is no clear minimum, only small minima. This supports the idea that the signal/noise ratio in our dataset is low, and a possible fix for this could be the selection of key features on the existing combined fingerprint. We rank the features according to their importance to the LGBM model, and plot them:
 
-![Texto alternativo]('../plots/Ranking_vs_ID.png')
+![Texto alternativo]('plots/Ranking_vs_ID.png')
