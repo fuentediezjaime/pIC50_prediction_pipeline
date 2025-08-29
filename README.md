@@ -120,3 +120,15 @@ We now build a set containing, without repetition, the top N features of each of
 
 
 This fingerprint, by taking the top 20% features, and trained on an SVR, performed the best as of dec. 2023. Interestingly, even if in principle the dimension of the input vector does not play a role on the SVR's precision, the fact that we were able to win using this suggests that the feature selection amounted to an "averaging out" of the noise introduced by most fingerprint digits, and thus it is akin to a regularization.
+
+
+
+|Fingerprint|MAE|
+|---|---|
+|Morgan(2)|0.534|
+|Morgan(3)|0.549|
+|RDKIT|0.563|
+|MACCS| 0.631|
+|Morgan + rdkit| 0.532|
+|Morgan + rdkit + scalars|0.521|
+|"Synthetic" fingerprint + SVR(rbf)|0.497|
