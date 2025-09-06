@@ -10,3 +10,4 @@ __pycache__/
 pic50_predictor.egg-info
 /results
 /models
+/notebooks

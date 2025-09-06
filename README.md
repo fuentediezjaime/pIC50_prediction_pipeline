@@ -114,7 +114,7 @@ All the runs provide very similar values for the MAE, which start to differ only
 
 ![Texto alternativo](plots/Ranking_vs_ID.png)
 
-We see that the most important features are in general the ones above the dotted line: the morgan features are more relevant than the RDKIT features, as we could already infer from the previous error values. Also, the highest raking points are those with the highest index: they are the scalar elements that were added to the fingerprint.
+We see that the most important features are in general the ones above the dotted line: the RDKIT features are more relevant than the Morgan features. Also, the highest raking points are those with the highest index: they are the scalar elements that were added to the fingerprint.
 
 We now build a set containing, without repetition, the top N features of each of the 4 simulations that were ran, and use it to train a new model. As the tree based approaches were reaching a plateau, an SVR with an rdf kernel is also trained on this "synthetic" fingerprint. As the cost of an SVR almost exclusively depends on the size of the training set, it is a high capacity way to tackle problems in the low data regime
 
